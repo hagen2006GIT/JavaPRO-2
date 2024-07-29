@@ -1,6 +1,5 @@
 package org.example.controller;
 
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -16,9 +15,7 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         // Выводим информацию о запросе
-//        log("Запрос ", request.getMethod(), request.getURI(), new String(body, StandardCharsets.UTF_8));
-
-//        request.getHeaders().add("Foo", "bar");
+        log("Запрос ", request.getMethod(), request.getURI(), new String(body, StandardCharsets.UTF_8));
 
         // Выполняем запрос
         ClientHttpResponse response = execution.execute(request, body);

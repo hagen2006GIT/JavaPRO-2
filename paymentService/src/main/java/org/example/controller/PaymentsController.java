@@ -13,12 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class PaymentsController {
 
     private final PaymentService paymentService;
-//    private final ExecutorPaymentService executorPaymentService;
-
 
     public PaymentsController(PaymentService paymentService/*, ExecutorPaymentService executorPaymentService*/) {
         this.paymentService = paymentService;
-//        this.executorPaymentService = executorPaymentService;
     }
 
     @GetMapping("/getAllClientProducts")
@@ -38,7 +35,6 @@ public class PaymentsController {
 
     @GetMapping("/healthCheck")
     public ExecutorResponseDto healthCheckConnection() {
-//        return executorPaymentService.executePaymentOk();
         return new ExecutorResponseDto("ID", "OK");
     }
 }

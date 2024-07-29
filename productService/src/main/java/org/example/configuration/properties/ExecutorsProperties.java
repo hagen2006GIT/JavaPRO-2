@@ -1,3 +1,4 @@
+
 package org.example.configuration.properties;
 
 import lombok.Getter;

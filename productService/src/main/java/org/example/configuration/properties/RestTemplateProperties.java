@@ -1,5 +1,6 @@
 package org.example.configuration.properties;
 
+
 import lombok.Getter;
 import lombok.Setter;
 

@@ -15,7 +15,6 @@ spring:
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:h2db
-#    url: jdbc:h2:file:./db
     username: sa
     password:
   h2:
@@ -36,8 +35,6 @@ integrations:
   services:
     products-service:
       url: "http://localhost:8282/pay-app/api/v1/products"
-#    user-service:
-#      url: "http://localhost:8282/pay-app/api/v1/clients"
   clients:
     client1:
       id: 1
