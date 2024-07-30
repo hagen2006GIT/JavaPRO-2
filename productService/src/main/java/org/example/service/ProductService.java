@@ -1,6 +1,7 @@
 package org.example.service;
 
 import lombok.Setter;
+import org.example.dto.ExecutorResponseDto;
 import org.example.dto.ProductDto;
 import org.example.dto.ProductResponseDto;
 import org.example.exception.ProductException;
@@ -8,6 +9,7 @@ import org.example.model.Product;
 import org.example.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,9 +20,11 @@ import java.util.List;
 public class ProductService {
     @Autowired
     private final ProductRepository productRepository;
+    private final ExecutorPaymentService executorPaymentService;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, ExecutorPaymentService executorPaymentService) {
         this.productRepository = productRepository;
+        this.executorPaymentService = executorPaymentService;
     }
 
     public List<ProductDto> findAll() throws ProductException {
@@ -39,16 +43,18 @@ public class ProductService {
         return new ProductDto(product.getId(), product.getAccount(), product.getBalance(), product.getProductType(), product.getUserId());
     }
 
-    public ProductResponseDto findByProductIdAndClientId(Long productId, Long clientId) throws ProductException {
+    public ExecutorResponseDto findByProductIdAndClientId(Long productId, Long clientId) throws ProductException {
         try {
             Product product = productRepository.findByIdAndUserId(productId, clientId);
             if (product == null) {
-                return new ProductResponseDto("Product with productId: " + productId + " AND clientId " + clientId + " not found");
+                ResponseEntity<ExecutorResponseDto> response = executorPaymentService.executePaymentFailed(productId,clientId);
+                return response.getBody();
             }
-            ProductDto result = new ProductDto(product.getId(), product.getAccount(), product.getBalance(), product.getProductType(), product.getUserId());
-            List<ProductDto> it = new ArrayList<>();
-            it.add(result);
-            return new ProductResponseDto(it);
+            Double balance = product.getBalance();
+            if (balance <= 0) {
+                return executorPaymentService.executePaymentZeroBalance(productId, clientId).getBody();
+            }
+            return executorPaymentService.executePaymentOk();
         } catch (Exception e) {
             throw new ProductException("Product with productId: " + productId + " AND clientId " + clientId + " not found", HttpStatus.NOT_FOUND);
         }

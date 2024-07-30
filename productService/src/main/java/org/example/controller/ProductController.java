@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.dto.ExecutorResponseDto;
 import org.example.dto.ProductDto;
 import org.example.dto.ProductResponseDto;
 import org.example.exception.ProductException;
@@ -36,7 +37,7 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}/{clientId}")
-    public ProductResponseDto getProductByClientId(@PathVariable Long productId, @PathVariable Long clientId) {
+    public /*ProductResponseDto*/ExecutorResponseDto getProductByClientId(@PathVariable Long productId, @PathVariable Long clientId) {
         return productService.findByProductIdAndClientId(productId, clientId);
     }
 
