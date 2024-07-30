@@ -32,7 +32,7 @@ public class PaymentService {
 
     public ProductResponseDto getClientProductById(Long productId) {
         ProductDto result = productRestClient.getForObject(
-                "/" + productId/* + "/" + clientId*/, ProductDto.class
+                "/" + productId, ProductDto.class
         );
         List<ProductDto> list = new ArrayList<>();
         list.add(result);
@@ -41,6 +41,6 @@ public class PaymentService {
 
     public ExecutorResponseDto checkPayment(Long productId) {
         return productRestClient.getForObject(
-                "/" + productId + "/" + clientId, /*ProductResponseDto.class*/ExecutorResponseDto.class);
+                "/" + productId + "/" + clientId, ExecutorResponseDto.class);
     }
 }
