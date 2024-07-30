@@ -14,7 +14,7 @@ public class PaymentsController {
 
     private final PaymentService paymentService;
 
-    public PaymentsController(PaymentService paymentService/*, ExecutorPaymentService executorPaymentService*/) {
+    public PaymentsController(PaymentService paymentService) {
         this.paymentService = paymentService;
     }
 
