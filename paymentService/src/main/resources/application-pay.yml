@@ -28,10 +28,10 @@ flyway:
 
 integrations:
   executors:
-    payments-executor-client:
-      url: "http://localhost:8031/executor"
-      connect-timeout: 1s
-      read-timeout: 30s
+   payments-executor-client:
+     url: "http://localhost:8031/executor"
+     connect-timeout: 1s
+     read-timeout: 30s
   services:
     products-service:
       url: "http://localhost:8282/pay-app/api/v1/products"
