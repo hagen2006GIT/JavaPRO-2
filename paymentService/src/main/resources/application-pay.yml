@@ -3,35 +3,7 @@ server:
   servlet:
     context-path: "/pay-app"
 
-spring:
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-      dialect: org.hibernate.dialect.H2Dialect
-    generate-ddl: true
-    ddl-auto: true
-    open-in-view: false
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:h2db
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: false
-      path: /h2-console
-flyway:
-  locations: db.migration
-
 integrations:
-  executors:
-   payments-executor-client:
-     url: "http://localhost:8031/executor"
-     connect-timeout: 1s
-     read-timeout: 30s
   services:
     products-service:
       url: "http://localhost:8282/pay-app/api/v1/products"

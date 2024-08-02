@@ -1,10 +1,11 @@
-package org.example.model;
+package org.example.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.model.ProductType;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,6 +23,7 @@ public class Product {
     private Double balance;
     @Column(name = "productType")
     private ProductType productType;
-    @Column(name = "userId")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "clientId")
+    private Client clientId;
 }

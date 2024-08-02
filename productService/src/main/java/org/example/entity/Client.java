@@ -1,10 +1,12 @@
-package org.example.model;
+package org.example.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Setter
 @Getter
@@ -18,4 +20,16 @@ public class Client {
     private Long id;
     @Column(name = "name")
     private String name;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "clientId")
+    private Set<Product> products;
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", " + products +
+                '}';
+    }
 }
