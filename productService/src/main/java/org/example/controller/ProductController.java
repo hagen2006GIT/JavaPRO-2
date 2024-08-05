@@ -4,6 +4,7 @@ import org.example.dto.ExecutorResponseDto;
 import org.example.dto.ProductDto;
 import org.example.dto.ProductResponseDto;
 import org.example.exception.ProductException;
+import org.example.service.ClientService;
 import org.example.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class ProductController {
     private final ProductService productService;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, ClientService clientService) {
         this.productService = productService;
     }
 
@@ -27,7 +28,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ProductDto getProductById(@PathVariable Long id) throws ProductException {
+    public ProductResponseDto getProductById(@PathVariable Long id) {
         return productService.getProductById(id);
     }
 
@@ -37,8 +38,13 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}/{clientId}")
-    public /*ProductResponseDto*/ExecutorResponseDto getProductByClientId(@PathVariable Long productId, @PathVariable Long clientId) {
-        return productService.findByProductIdAndClientId(productId, clientId);
+    public ExecutorResponseDto executeProductByClientId(@PathVariable Long productId, @PathVariable Long clientId) {
+        return productService.executeByProductIdAndClientId(productId, clientId);
+    }
+
+    @GetMapping("/GET/{productId}/{clientId}")
+    public ProductDto findProductByProductIdAndClientId(@PathVariable Long productId, @PathVariable Long clientId) {
+        return productService.findProductByProductIdAndClientId(productId, clientId);
     }
 
     @GetMapping("/all")

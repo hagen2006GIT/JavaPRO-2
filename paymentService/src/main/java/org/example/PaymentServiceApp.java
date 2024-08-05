@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 public class PaymentServiceApp {
-    public static void main( String[] args ) {
-        ApplicationContext ctx = SpringApplication.run(PaymentServiceApp.class, args);
+    public static void main(String[] args) {
+        SpringApplication.run(PaymentServiceApp.class, args);
     }
 }

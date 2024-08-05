@@ -2,38 +2,37 @@ package org.example.service;
 
 import org.example.dto.ClientDto;
 import org.example.exception.ClientException;
-import org.example.model.Client;
+import org.example.mapper.ClientMapper;
+import org.example.entity.Client;
 import org.example.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ClientService {
     private final ClientRepository clientRepository;
+    @Autowired
+    private final ClientMapper clientMapper;
 
     @Autowired
-    public ClientService(ClientRepository clientRepository) {
+    public ClientService(ClientRepository clientRepository, ClientMapper clientMapper) {
         this.clientRepository = clientRepository;
+        this.clientMapper = clientMapper;
     }
 
     public ClientDto save(ClientDto clientDto) {
-        Client client = new Client();
-        client.setName(clientDto.getName());
-        clientDto.setId(client.getId());
-        clientRepository.save(client);
-        return new ClientDto(client.getId(), client.getName());
+        return clientMapper.entityToDto(
+                clientRepository.save(
+                        clientMapper.dtoToEntity(clientDto)
+                )
+        );
     }
 
-    public List<ClientDto> findAll() throws ClientException {
-        List<ClientDto> users = new ArrayList<>();
-        for (Client it : clientRepository.findAll()) {
-            users.add(new ClientDto(it.getId(), it.getName()));
-        }
-        return users;
+    public List<ClientDto> findAll() {
+        return clientMapper.entityListToDtoList(clientRepository.findAll());
     }
 
     public ClientDto findById(Long id) {
@@ -41,7 +40,14 @@ public class ClientService {
                 .orElseThrow(() ->
                         new ClientException("Client with id: " + id + " not found", HttpStatus.NOT_FOUND)
                 );
-        return new ClientDto(client.getId(), client.getName());
+        return clientMapper.entityToDto(client);
+    }
+
+    public Client findByIdCl(Long id) {
+        return clientRepository.findById(id)
+                .orElseThrow(() ->
+                        new ClientException("Client with id: " + id + " not found", HttpStatus.NOT_FOUND)
+                );
     }
 
 }

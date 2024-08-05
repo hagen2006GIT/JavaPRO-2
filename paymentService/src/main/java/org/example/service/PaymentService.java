@@ -2,14 +2,10 @@ package org.example.service;
 
 import lombok.Setter;
 import org.example.dto.ExecutorResponseDto;
-import org.example.dto.ProductDto;
 import org.example.dto.ProductResponseDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Setter
@@ -26,17 +22,12 @@ public class PaymentService {
 
     public ProductResponseDto getAllClientProducts() {
         return productRestClient.getForObject(
-                "/client/" + clientId, ProductResponseDto.class
-        );
+                "/client/" + clientId, ProductResponseDto.class);
     }
 
     public ProductResponseDto getClientProductById(Long productId) {
-        ProductDto result = productRestClient.getForObject(
-                "/" + productId, ProductDto.class
-        );
-        List<ProductDto> list = new ArrayList<>();
-        list.add(result);
-        return new ProductResponseDto(list);
+        return productRestClient.getForObject(
+                "/" + productId, ProductResponseDto.class);
     }
 
     public ExecutorResponseDto checkPayment(Long productId) {
